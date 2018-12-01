@@ -7,7 +7,7 @@ import (
 
 func TestAddMove(t *testing.T) {
 	t.Run("add move to empty board", func(t *testing.T) {
-		board := Board{3, []Move{}}
+		board := createNewBoard()
 		move := Move{"X", 1, "playerId-1"}
 		board.AddMove(move)
 
@@ -29,11 +29,12 @@ func TestAddMove(t *testing.T) {
 		move7 := Move{"X", 7, "playerId-1"}
 		move8 := Move{"O", 8, "playerId-2"}
 		move9 := Move{"X", 9, "playerId-1"}
-		board := Board{3, []Move{move1, move2, move3, move4, move5, move6, move7, move8, move9}}
+		moves := []Move{move1, move2, move3, move4, move5, move6, move7, move8, move9}
+		board := createFullBoard(moves)
 		board.AddMove(Move{"O", 10, "playerId-2"})
 
 		got := board.Moves
-		want := []Move{move1, move2, move3, move4, move5, move6, move7, move8, move9}
+		want := moves
 
 		if !reflect.DeepEqual(got, want) {
 			t.Errorf("got %v, want %v", got, want)
@@ -53,7 +54,7 @@ func createNewBoard() Board {
 	return Board{3, []Move{}}
 }
 
-func createFullBoard() Board {
+func createFullBoard(moves []Move) Board {
 	move1 := Move{"X", 1, "playerId-1"}
 	move2 := Move{"O", 2, "playerId-2"}
 	move3 := Move{"X", 3, "playerId-1"}
@@ -63,6 +64,6 @@ func createFullBoard() Board {
 	move7 := Move{"X", 7, "playerId-1"}
 	move8 := Move{"O", 8, "playerId-2"}
 	move9 := Move{"X", 9, "playerId-1"}
-	board := Board{3, []Move{move1, move2, move3, move4, move5, move6, move7, move8, move9}}
+	board := Board{3, moves}
 	return board
 }
