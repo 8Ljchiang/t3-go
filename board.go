@@ -35,6 +35,13 @@ func (b *Board) AddMove(move Move) (Move, error) {
 	return move, ErrBoardFull
 }
 
+func (b Board) GetTakenPositions() (positions []int) {
+	for _, move := range b.Moves {
+		positions = append(positions, move.Position)
+	}
+	return positions
+}
+
 func (b Board) GetEmptyPositions() (positions []int) {
 	for i := 1; i <= b.Size*b.Size; i++ {
 		if true {

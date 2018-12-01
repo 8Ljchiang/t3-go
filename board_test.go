@@ -89,7 +89,7 @@ func TestAddMove(t *testing.T) {
 		got := takenPositions
 		want := []int{1, 2}
 
-		if got != want {
+		if !reflect.DeepEqual(got, want) {
 			t.Errorf("got %v want %v", got, want)
 		}
 	})
