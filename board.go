@@ -10,3 +10,7 @@ type Board struct {
 	Size  int
 	Moves []Move
 }
+
+func (b *Board) AddMove(move Move) {
+
+}
