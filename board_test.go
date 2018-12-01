@@ -176,7 +176,7 @@ func TestAddMove(t *testing.T) {
 }
 
 func createNewBoard(moves []Move) Board {
-	return Board{3, moves}
+	return Board{"1", 3, moves}
 }
 
 func createFullBoard() Board {
