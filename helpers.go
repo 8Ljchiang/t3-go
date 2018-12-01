@@ -66,6 +66,7 @@ func containsWinningPattern(board Board, mark string) bool {
 		if len(matchingPositions) == len(pattern) {
 			return true
 		}
+		matchingPositions = []int{}
 	}
 	return false
 }
