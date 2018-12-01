@@ -67,7 +67,7 @@ func playRound(inputReader *bufio.Reader, status string, game *Game, bs *BoardSt
 	processGameStatus(inputReader, status, game, bs, ps)
 }
 
-func getGameStatus(game *Game, bs *BoardStore) string {
+func getGameStatus(game *Game, bs Store) string {
 	board, err := bs.Get(game.BoardId)
 
 	if err == nil {

@@ -9,6 +9,11 @@ type BoardStoreErr string
 
 func (e BoardStoreErr) Error() string {
 	return string(e)
+
+}
+
+type Store interface {
+	Get(id string) (Board, error)
 }
 
 type BoardStore struct {
