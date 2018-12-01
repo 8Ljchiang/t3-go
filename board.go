@@ -3,6 +3,7 @@ package main
 const (
 	ErrBoardFull            = BoardErr("board is full")
 	ErrBoardPositionInvalid = BoardErr("board position is invalid")
+	ADJMENT_VAL             = 1
 )
 
 type BoardErr string
@@ -34,6 +35,27 @@ func (b *Board) AddMove(move Move) (Move, error) {
 	return move, ErrBoardFull
 }
 
+func (b Board) GetTakenPositions() (positions []int) {
+	for _, move := range b.Moves {
+		positions = append(positions, move.Position)
+	}
+	return positions
+}
+
+func (b Board) GetEmptyPositions() (positions []int) {
+	takenPositions := b.GetTakenPositions()
+	for i := 1; i <= b.Size*b.Size; i++ {
+		if !containsPosition(takenPositions, i) {
+			positions = append(positions, i)
+		}
+	}
+	return positions
+}
+
+func adjustIndexToPosition(index int) int {
+	return index + ADJMENT_VAL
+}
+
 func isValidPosition(b *Board, position int) bool {
 	if position < 0 || position > (b.Size*b.Size) {
 		return false
@@ -45,4 +67,13 @@ func isValidPosition(b *Board, position int) bool {
 		}
 	}
 	return true
+}
+
+func containsPosition(positions []int, position int) bool {
+	for _, p := range positions {
+		if p == position {
+			return true
+		}
+	}
+	return false
 }
