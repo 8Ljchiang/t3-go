@@ -77,22 +77,9 @@ func TestAddMove(t *testing.T) {
 		assertError(t, err, ErrBoardPositionInvalid)
 		assertMoves(t, got, want)
 	})
+}
 
-	t.Run("get taken positions from board", func(t *testing.T) {
-		move1 := Move{"X", 1, "playerId-1"}
-		move2 := Move{"O", 2, "playerId-2"}
-		moves := []Move{move1, move2}
-		board := createNewBoard(moves)
-		board.AddMove(move1)
-		board.AddMove(move2)
-		takenPositions := board.GetTakenPositions()
-
-		got := takenPositions
-		want := []int{1, 2}
-
-		assertPositions(t, got, want)
-	})
-
+func TestGetEmptyPositions(t *testing.T) {
 	t.Run("get empty positions from empty board", func(t *testing.T) {
 		board := createNewBoard([]Move{})
 
@@ -125,8 +112,28 @@ func TestAddMove(t *testing.T) {
 			t.Errorf("got %d positions want %d", got, want)
 		}
 	})
+}
 
-	/** Helper Function tests **/
+func TestGetTakenPositions(t *testing.T) {
+	t.Run("get taken positions from board", func(t *testing.T) {
+		move1 := Move{"X", 1, "playerId-1"}
+		move2 := Move{"O", 2, "playerId-2"}
+		moves := []Move{move1, move2}
+		board := createNewBoard(moves)
+		board.AddMove(move1)
+		board.AddMove(move2)
+		takenPositions := board.GetTakenPositions()
+
+		got := takenPositions
+		want := []int{1, 2}
+
+		assertPositions(t, got, want)
+	})
+}
+
+/** Helper Function tests **/
+func TestGetTakenPositionsHelper(t *testing.T) {
+
 	t.Run("get taken positions from board using helper func", func(t *testing.T) {
 		move1 := Move{"X", 1, "playerId-1"}
 		move2 := Move{"O", 2, "playerId-2"}
@@ -140,7 +147,9 @@ func TestAddMove(t *testing.T) {
 
 		assertPositions(t, got, want)
 	})
+}
 
+func TestGetEmptyPositionsHelper(t *testing.T) {
 	t.Run("get empty positions from empty board using helper func", func(t *testing.T) {
 		board := createNewBoard([]Move{})
 
@@ -171,6 +180,56 @@ func TestAddMove(t *testing.T) {
 
 		if got != want {
 			t.Errorf("got %d positions want %d", got, want)
+		}
+	})
+}
+
+func TestGetPositionMark(t *testing.T) {
+	t.Run("get the value from an open position", func(t *testing.T) {
+		board := createNewBoard([]Move{})
+
+		got := board.GetPositionMark(1)
+		want := "1"
+
+		if got != want {
+			t.Errorf("got %s want %s", got, want)
+		}
+	})
+
+	t.Run("get the value from a filled position", func(t *testing.T) {
+		move := Move{"X", 1, "playerId-1"}
+		board := createNewBoard([]Move{move})
+
+		got := board.GetPositionMark(1)
+		want := "X"
+
+		if got != want {
+			t.Errorf("got %s want %s", got, want)
+		}
+	})
+}
+
+func TestGetPositionMarkHelper(t *testing.T) {
+	t.Run("get the value from an open position", func(t *testing.T) {
+		board := createNewBoard([]Move{})
+
+		got := getPositionMark(board, 1)
+		want := "1"
+
+		if got != want {
+			t.Errorf("got %s want %s", got, want)
+		}
+	})
+
+	t.Run("get the value from a filled position", func(t *testing.T) {
+		move := Move{"X", 1, "playerId-1"}
+		board := createNewBoard([]Move{move})
+
+		got := getPositionMark(board, 1)
+		want := "X"
+
+		if got != want {
+			t.Errorf("got %s want %s", got, want)
 		}
 	})
 }
