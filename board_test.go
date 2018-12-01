@@ -9,14 +9,13 @@ func TestAddMove(t *testing.T) {
 	t.Run("add move to empty board", func(t *testing.T) {
 		board := createNewBoard()
 		move := Move{"X", 1, "playerId-1"}
-		board.AddMove(move)
+		_, err := board.AddMove(move)
 
 		got := board.Moves
 		want := []Move{move}
 
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("got %v, want %v", got, want)
-		}
+		assertError(t, err, nil)
+		assertMoves(t, got, want)
 	})
 
 	t.Run("add move to a full board", func(t *testing.T) {
@@ -31,18 +30,28 @@ func TestAddMove(t *testing.T) {
 		move9 := Move{"X", 9, "playerId-1"}
 		moves := []Move{move1, move2, move3, move4, move5, move6, move7, move8, move9}
 		board := createFullBoard(moves)
-		board.AddMove(Move{"O", 10, "playerId-2"})
+		_, err := board.AddMove(Move{"O", 10, "playerId-2"})
 
 		got := board.Moves
 		want := moves
 
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("got %v, want %v", got, want)
-		}
+		assertError(t, err, ErrBoardFull)
+		assertMoves(t, got, want)
 	})
 
 	t.Run("add move to a position that is already taken", func(t *testing.T) {
+		board := createNewBoard()
+		move1 := Move{"X", 1, "playerId-1"}
+		move2 := Move{"O", 1, "playerId-2"}
+		_, err1 := board.AddMove(move1)
+		_, err2 := board.AddMove(move2)
 
+		got := board.Moves
+		want := []Move{move1}
+
+		assertError(t, err1, nil)
+		assertError(t, err2, ErrBoardPositionFilled)
+		assertMoves(t, got, want)
 	})
 
 	t.Run("adding a move to an invalid position", func(t *testing.T) {
@@ -57,4 +66,18 @@ func createNewBoard() Board {
 func createFullBoard(moves []Move) Board {
 	board := Board{3, moves}
 	return board
+}
+
+func assertMoves(t *testing.T, got, want []Move) {
+	t.Helper()
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func assertError(t *testing.T, got, want error) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got error '%s' want '%s'", got, want)
+	}
 }
