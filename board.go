@@ -12,5 +12,7 @@ type Board struct {
 }
 
 func (b *Board) AddMove(move Move) {
-	b.Moves = append(b.Moves, move)
+	if len(b.Moves) < b.Size*b.Size {
+		b.Moves = append(b.Moves, move)
+	}
 }
