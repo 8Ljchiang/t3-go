@@ -43,8 +43,9 @@ func (b Board) GetTakenPositions() (positions []int) {
 }
 
 func (b Board) GetEmptyPositions() (positions []int) {
+	takenPositions := b.GetTakenPositions()
 	for i := 1; i <= b.Size*b.Size; i++ {
-		if true {
+		if !containsPosition(takenPositions, i) {
 			positions = append(positions, i)
 		}
 	}
@@ -66,4 +67,13 @@ func isValidPosition(b *Board, position int) bool {
 		}
 	}
 	return true
+}
+
+func containsPosition(positions []int, position int) bool {
+	for _, p := range positions {
+		if p == position {
+			return true
+		}
+	}
+	return false
 }
