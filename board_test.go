@@ -90,9 +90,7 @@ func TestAddMove(t *testing.T) {
 		got := takenPositions
 		want := []int{1, 2}
 
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("got %v want %v", got, want)
-		}
+		assertPositions(t, got, want)
 	})
 
 	t.Run("get empty positions from empty board", func(t *testing.T) {
@@ -101,9 +99,7 @@ func TestAddMove(t *testing.T) {
 		got := board.GetEmptyPositions()
 		want := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("got %v want %v", got, want)
-		}
+		assertPositions(t, got, want)
 	})
 
 	t.Run("get empty positions from board with 2 moves", func(t *testing.T) {
@@ -115,9 +111,7 @@ func TestAddMove(t *testing.T) {
 		got := board.GetEmptyPositions()
 		want := []int{3, 4, 5, 6, 7, 8, 9}
 
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("got %v want %v", got, want)
-		}
+		assertPositions(t, got, want)
 	})
 
 	t.Run("get empty positions from full board", func(t *testing.T) {
@@ -132,6 +126,53 @@ func TestAddMove(t *testing.T) {
 		}
 	})
 
+	/** Helper Function tests **/
+	t.Run("get taken positions from board using helper func", func(t *testing.T) {
+		move1 := Move{"X", 1, "playerId-1"}
+		move2 := Move{"O", 2, "playerId-2"}
+		moves := []Move{move1, move2}
+		board := createNewBoard(moves)
+		board.AddMove(move1)
+		board.AddMove(move2)
+
+		got := getTakenPositions(board)
+		want := []int{1, 2}
+
+		assertPositions(t, got, want)
+	})
+
+	t.Run("get empty positions from empty board using helper func", func(t *testing.T) {
+		board := createNewBoard([]Move{})
+
+		got := board.GetEmptyPositions()
+		want := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+		assertPositions(t, got, want)
+	})
+
+	t.Run("get empty positions from board with 2 moves using helper func", func(t *testing.T) {
+		move1 := Move{"X", 1, "playerId-1"}
+		move2 := Move{"O", 2, "playerId-2"}
+		moves := []Move{move1, move2}
+		board := createNewBoard(moves)
+
+		got := getEmptyPositions(board)
+		want := []int{3, 4, 5, 6, 7, 8, 9}
+
+		assertPositions(t, got, want)
+	})
+
+	t.Run("get emptPositions from full board using helper func", func(t *testing.T) {
+		board := createFullBoard()
+		emptyPositions := getEmptyPositions(board)
+
+		got := len(emptyPositions)
+		want := 0
+
+		if got != want {
+			t.Errorf("got %d positions want %d", got, want)
+		}
+	})
 }
 
 func createNewBoard(moves []Move) Board {
@@ -164,5 +205,12 @@ func assertError(t *testing.T, got, want error) {
 	t.Helper()
 	if got != want {
 		t.Errorf("got error '%s' want '%s'", got, want)
+	}
+}
+
+func assertPositions(t *testing.T, got, want []int) {
+	t.Helper()
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
 	}
 }

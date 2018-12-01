@@ -77,3 +77,20 @@ func containsPosition(positions []int, position int) bool {
 	}
 	return false
 }
+
+func getTakenPositions(b Board) (positions []int) {
+	for _, move := range b.Moves {
+		positions = append(positions, move.Position)
+	}
+	return positions
+}
+
+func getEmptyPositions(b Board) (positions []int) {
+	takenPositions := getTakenPositions(b)
+	for i := 1; i <= b.Size*b.Size; i++ {
+		if !containsPosition(takenPositions, i) {
+			positions = append(positions, i)
+		}
+	}
+	return positions
+}
