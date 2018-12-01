@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestAdd(t *testing.T) {
+func TestBStoreAdd(t *testing.T) {
 	t.Run("add board to empty bstore", func(t *testing.T) {
 		boardId := "1"
 		board := createNewBoard([]Move{})
@@ -24,27 +24,26 @@ func TestAdd(t *testing.T) {
 	})
 
 	t.Run("add board to store where board already exists", func(t *testing.T) {
-		boardId := "1"
 		board := createNewBoard([]Move{})
 		collection := map[string]Board{"1": board}
 		boardStore := BoardStore{collection}
 
 		_, err := boardStore.Add(board)
-		want := ErrPlayerAlreadyExists
+		want := ErrBoardAlreadyExists
 
 		assertError(t, err, want)
 	})
 }
 
-func TestGet(t *testing.T) {
+func TestBStoreGet(t *testing.T) {
 	t.Run("get board from bstore that exists", func(t *testing.T) {
 		boardId := "1"
 		board := createNewBoard([]Move{})
 		collection := map[string]Board{"1": board}
 		boardStore := BoardStore{collection}
 
-		got, err := boardStore.Get(playerId)
-		want := player
+		got, err := boardStore.Get(boardId)
+		want := board
 
 		assertError(t, err, nil)
 
@@ -54,21 +53,21 @@ func TestGet(t *testing.T) {
 	})
 
 	t.Run("get board from bstore that doesn't exist", func(t *testing.T) {
-		playerStore := BoardStore{map[string]Board{}}
+		boardStore := BoardStore{map[string]Board{}}
 
-		_, err := BoardStore.Get("1")
-		want := ErrPlayerNotFound
+		_, err := boardStore.Get("1")
+		want := ErrBoardNotFound
 
 		assertError(t, err, want)
 	})
 }
 
-func TestUpate(t *testing.T) {
+func TestBStoreUpate(t *testing.T) {
 	t.Run("update board that exists in bstore", func(t *testing.T) {
 		boardId := "1"
-		board := createNewBoard()
-		updatedBoard := Board{Id: playerId, Size: 3, Moves: []Move{Move{"X", 1, "playerId-1"}}}
-		boardStore := BoardStore{map[string]Player{"1": board}}
+		board := createNewBoard([]Move{})
+		updatedBoard := Board{Id: boardId, Size: 3, Moves: []Move{Move{"X", 1, "playerId-1"}}}
+		boardStore := BoardStore{map[string]Board{"1": board}}
 
 		_, err := boardStore.Update(updatedBoard)
 		brd, _ := boardStore.Get(boardId)
@@ -77,33 +76,33 @@ func TestUpate(t *testing.T) {
 		want := updatedBoard
 
 		assertError(t, err, nil)
-		assertPlayer(t, got, want)
+		assertBoard(t, got, want)
 	})
 
 	t.Run("update board that doesn't exist in bstore", func(t *testing.T) {
 		boardId := "1"
-		board := createNewBoard()
+		board := createNewBoard([]Move{})
 		boardStore := BoardStore{map[string]Board{}}
 
 		_, updateErr := boardStore.Update(board)
 		_, getErr := boardStore.Get(boardId)
 
-		assertError(t, updateErr, ErrPlayerNotFound)
-		assertError(t, getErr, ErrPlayerNotFound)
+		assertError(t, updateErr, ErrBoardNotFound)
+		assertError(t, getErr, ErrBoardNotFound)
 	})
 }
 
-func TestRemove(t *testing.T) {
+func TestBStoreRemove(t *testing.T) {
 	t.Run("remove board that exists in pstore", func(t *testing.T) {
 		boardId := "1"
-		board := createNewBoard()
-		boardStore := BoardStore{map[string]board{"1": board}}
+		board := createNewBoard([]Move{})
+		boardStore := BoardStore{map[string]Board{"1": board}}
 
 		boardStore.Remove(boardId)
 
 		_, err := boardStore.Get(board.Id)
 
-		assertError(t, err, ErrPlayerNotFound)
+		assertError(t, err, ErrBoardNotFound)
 	})
 }
 

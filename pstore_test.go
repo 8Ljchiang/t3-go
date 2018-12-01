@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestAdd(t *testing.T) {
+func TestPStoreAdd(t *testing.T) {
 	t.Run("add player to empty pstore", func(t *testing.T) {
 		playerId := "1"
 		player := Player{Id: playerId, Name: "John", Marker: "X"}
@@ -38,7 +38,7 @@ func TestAdd(t *testing.T) {
 	})
 }
 
-func TestGet(t *testing.T) {
+func TestPStoreGet(t *testing.T) {
 	t.Run("get player from pstore that exists", func(t *testing.T) {
 		playerId := "1"
 		player := Player{Id: playerId, Name: "John", Marker: "X"}
@@ -67,7 +67,7 @@ func TestGet(t *testing.T) {
 	})
 }
 
-func TestUpate(t *testing.T) {
+func TestPStoreUpate(t *testing.T) {
 	t.Run("update player that exists in pstore", func(t *testing.T) {
 		playerId := "1"
 		player := Player{Id: playerId, Name: "John", Marker: "X"}
@@ -99,7 +99,7 @@ func TestUpate(t *testing.T) {
 	})
 }
 
-func TestRemove(t *testing.T) {
+func TestPStoreRemove(t *testing.T) {
 	t.Run("remove player that exists in pstore", func(t *testing.T) {
 		playerId := "1"
 		player := Player{Id: playerId, Name: "John", Marker: "X"}

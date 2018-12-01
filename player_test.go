@@ -6,7 +6,7 @@ import (
 
 func TestGetMove(t *testing.T) {
 	t.Run("get move from player", func(t *testing.T) {
-		board := Board{3, []Move{}}
+		board := Board{"1", 3, []Move{}}
 		player := Player{"playerId-1", "John", "X"}
 		move := player.GetMove(board)
 
