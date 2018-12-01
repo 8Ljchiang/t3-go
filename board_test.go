@@ -77,6 +77,18 @@ func TestAddMove(t *testing.T) {
 		assertError(t, err, ErrBoardPositionInvalid)
 		assertMoves(t, got, want)
 	})
+
+	t.Run("get empty positions from empty board", func(t *testing.T) {
+		board := createNewBoard()
+		emptyPostions := board.GetEmptyPositions()
+
+		got := emptyPostions
+		want := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v want %v", got, want)
+		}
+	})
 }
 
 func createNewBoard() Board {
