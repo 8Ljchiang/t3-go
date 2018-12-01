@@ -24,20 +24,17 @@ func TestAdd(t *testing.T) {
 	})
 
 	t.Run("add player to store where player already exists", func(t *testing.T) {
-		// playerId := "1"
-		// player := Player{Id: playerId, Name: "John", Marker: "X"}
-		// collection := map[string]Player{
-		// 	"1": player,
-		// }
-		// playerStore := PlayerStore{collection}
+		playerId := "1"
+		player := Player{Id: playerId, Name: "John", Marker: "X"}
+		collection := map[string]Player{
+			"1": player,
+		}
+		playerStore := PlayerStore{collection}
 
-		// got, err := playerStore.Get(playerId)
-		// want := player
+		_, err := playerStore.Add(player)
+		want := ErrPlayerAlreadyExists
 
-		// assertError(t, err, nil)
-
-		// if !reflect.DeepEqual(got, want) {
-		// 	t.Errorf("got %v want %v", got, want)
+		assertError(t, err, want)
 	})
 }
 
@@ -88,4 +85,11 @@ func TestRemove(t *testing.T) {
 	t.Run("remove player that doesn't exist in pstore", func(t *testing.T) {
 
 	})
+}
+
+func assertPlayer(t *testing.T, got, want Player) {
+	t.Helper()
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
 }
