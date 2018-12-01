@@ -50,12 +50,32 @@ func TestAddMove(t *testing.T) {
 		want := []Move{move1}
 
 		assertError(t, err1, nil)
-		assertError(t, err2, ErrBoardPositionFilled)
+		assertError(t, err2, ErrBoardPositionInvalid)
 		assertMoves(t, got, want)
 	})
 
-	t.Run("adding a move to an invalid position", func(t *testing.T) {
+	t.Run("adding a move to a postion greater than the board size", func(t *testing.T) {
+		board := createNewBoard()
+		move1 := Move{"X", 10, "playerId-1"}
+		_, err := board.AddMove(move1)
 
+		got := board.Moves
+		want := []Move{}
+
+		assertError(t, err, ErrBoardPositionInvalid)
+		assertMoves(t, got, want)
+	})
+
+	t.Run("adding a move to a position less than 0", func(t *testing.T) {
+		board := createNewBoard()
+		move1 := Move{"X", -1, "playerId-1"}
+		_, err := board.AddMove(move1)
+
+		got := board.Moves
+		want := []Move{}
+
+		assertError(t, err, ErrBoardPositionInvalid)
+		assertMoves(t, got, want)
 	})
 }
 

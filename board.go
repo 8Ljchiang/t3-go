@@ -1,8 +1,8 @@
 package board
 
 const (
-	ErrBoardFull           = BoardErr("board is full")
-	ErrBoardPositionFilled = BoardErr("board position is filled")
+	ErrBoardFull            = BoardErr("board is full")
+	ErrBoardPositionInvalid = BoardErr("board position is invalid")
 )
 
 type BoardErr string
@@ -28,13 +28,17 @@ func (b *Board) AddMove(move Move) (Move, error) {
 			b.Moves = append(b.Moves, move)
 			return move, nil
 		} else {
-			return move, ErrBoardPositionFilled
+			return move, ErrBoardPositionInvalid
 		}
 	}
 	return move, ErrBoardFull
 }
 
 func isValidPosition(b *Board, position int) bool {
+	if position < 0 || position > (b.Size*b.Size) {
+		return false
+	}
+
 	for _, move := range b.Moves {
 		if move.Position == position {
 			return false
