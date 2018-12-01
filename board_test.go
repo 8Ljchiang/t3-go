@@ -55,15 +55,6 @@ func createNewBoard() Board {
 }
 
 func createFullBoard(moves []Move) Board {
-	move1 := Move{"X", 1, "playerId-1"}
-	move2 := Move{"O", 2, "playerId-2"}
-	move3 := Move{"X", 3, "playerId-1"}
-	move4 := Move{"O", 4, "playerId-2"}
-	move5 := Move{"X", 5, "playerId-1"}
-	move6 := Move{"O", 6, "playerId-2"}
-	move7 := Move{"X", 7, "playerId-1"}
-	move8 := Move{"O", 8, "playerId-2"}
-	move9 := Move{"X", 9, "playerId-1"}
 	board := Board{3, moves}
 	return board
 }
