@@ -24,8 +24,21 @@ type Board struct {
 
 func (b *Board) AddMove(move Move) (Move, error) {
 	if len(b.Moves) < b.Size*b.Size {
-		b.Moves = append(b.Moves, move)
-		return move, nil
+		if isValidPosition(b, move.Position) {
+			b.Moves = append(b.Moves, move)
+			return move, nil
+		} else {
+			return move, ErrBoardPositionFilled
+		}
 	}
 	return move, ErrBoardFull
+}
+
+func isValidPosition(b *Board, position int) bool {
+	for _, move := range b.Moves {
+		if move.Position == position {
+			return false
+		}
+	}
+	return true
 }
