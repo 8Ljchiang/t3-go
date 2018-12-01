@@ -1,7 +1,8 @@
 package main
 
 const (
-	ErrPlayerNotFound = PlayerStoreErr("player not found")
+	ErrPlayerNotFound      = PlayerStoreErr("player not found")
+	ErrPlayerAlreadyExists = PlayerStoreErr("player already exists")
 )
 
 type PlayerStoreErr string
@@ -22,4 +23,18 @@ func (p PlayerStore) Get(id string) (Player, error) {
 	}
 
 	return player, nil
+}
+
+func (p *PlayerStore) Add(player Player) (Player, error) {
+	plyr, err := p.Get(player.Id)
+
+	switch err {
+	case ErrPlayerNotFound:
+		p.Collection[player.Id] = player
+		return player, nil
+	case nil:
+		return plyr, ErrPlayerAlreadyExists
+	default:
+		return plyr, err
+	}
 }

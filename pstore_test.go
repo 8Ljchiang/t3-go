@@ -11,11 +11,12 @@ func TestAdd(t *testing.T) {
 		player := Player{Id: playerId, Name: "John", Marker: "X"}
 		playerStore := PlayerStore{map[string]Player{}}
 
-		_, err := playerStore.Add(player)
-		got := playerStore.Get(playerId)
+		_, addErr := playerStore.Add(player)
+		got, gotErr := playerStore.Get(playerId)
 		want := player
 
-		assertError(t, err, nil)
+		assertError(t, addErr, nil)
+		assertError(t, gotErr, nil)
 
 		if !reflect.DeepEqual(got, want) {
 			t.Errorf("got %v want %v", got, want)
