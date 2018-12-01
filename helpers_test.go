@@ -27,3 +27,13 @@ func TestCycleActivePlayerIndex(t *testing.T) {
 		}
 	})
 }
+
+func TestContainsPattern(t *testing.T) {
+	t.Run("should return false for a board that has no matching patterns", func(t *testing.T) {
+
+	})
+
+	t.Run("should return true for a board that has a matching pattern", func(t *testing.T) {
+
+	})
+}
