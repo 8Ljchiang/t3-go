@@ -52,3 +52,7 @@ func (p *PlayerStore) Update(player Player) (Player, error) {
 		return plyr, err
 	}
 }
+
+func (p *PlayerStore) Remove(playerId string) {
+	delete(p.Collection, playerId)
+}
