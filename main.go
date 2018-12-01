@@ -76,8 +76,8 @@ func getGameStatus(game *Game, bs Store) string {
 			// fmt.Printf("board %v", board)
 			// fmt.Printf("positions %v", emptyPos)
 			return STATUS_DRAW
-		} else {
-			return STATUS_IN_PROGRESS
+		} else if containsWinningPattern(board, M_2) || containsWinningPattern(board, M_2) {
+			return STATUS_WINNER
 		}
 	}
 

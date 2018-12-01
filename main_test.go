@@ -54,7 +54,15 @@ func TestGetGameStatus(t *testing.T) {
 	})
 
 	t.Run("should return the status of WINNER when there is a matching pattern", func(t *testing.T) {
+		boardStoreMock := FullBoardStoreMock{}
+		newGame := createNewGame()
 
+		got := getGameStatus(&newGame, boardStoreMock)
+		want := STATUS_WINNER
+
+		if got != want {
+			t.Errorf("got %s want %s", got, want)
+		}
 	})
 }
 
