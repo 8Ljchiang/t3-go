@@ -101,11 +101,15 @@ func TestUpate(t *testing.T) {
 
 func TestRemove(t *testing.T) {
 	t.Run("remove player that exists in pstore", func(t *testing.T) {
+		playerId := "1"
+		player := Player{Id: playerId, Name: "John", Marker: "X"}
+		playerStore := PlayerStore{map[string]Player{"1": player}}
 
-	})
+		playerStore.Remove(playerId)
 
-	t.Run("remove player that doesn't exist in pstore", func(t *testing.T) {
+		_, err := playerStore.Get(player.Id)
 
+		assertError(t, err, ErrPlayerNotFound)
 	})
 }
 
