@@ -1,5 +1,16 @@
 package board
 
+const (
+	ErrBoardFull            = BoardErr("board is full")
+	ErrBoardPositionInvalid = BoardErr("board position is invalid")
+)
+
+type BoardErr string
+
+func (e BoardErr) Error() string {
+	return string(e)
+}
+
 type Move struct {
 	Mark     string
 	Position int
@@ -9,4 +20,29 @@ type Move struct {
 type Board struct {
 	Size  int
 	Moves []Move
+}
+
+func (b *Board) AddMove(move Move) (Move, error) {
+	if len(b.Moves) < b.Size*b.Size {
+		if isValidPosition(b, move.Position) {
+			b.Moves = append(b.Moves, move)
+			return move, nil
+		} else {
+			return move, ErrBoardPositionInvalid
+		}
+	}
+	return move, ErrBoardFull
+}
+
+func isValidPosition(b *Board, position int) bool {
+	if position < 0 || position > (b.Size*b.Size) {
+		return false
+	}
+
+	for _, move := range b.Moves {
+		if move.Position == position {
+			return false
+		}
+	}
+	return true
 }
