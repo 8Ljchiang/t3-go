@@ -19,6 +19,7 @@ type Move struct {
 }
 
 type Board struct {
+	Id    string
 	Size  int
 	Moves []Move
 }
