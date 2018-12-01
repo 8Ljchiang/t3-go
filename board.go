@@ -12,5 +12,5 @@ type Board struct {
 }
 
 func (b *Board) AddMove(move Move) {
-
+	b.Moves = append(b.Moves, move)
 }
