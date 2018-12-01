@@ -69,11 +69,33 @@ func TestGet(t *testing.T) {
 
 func TestUpate(t *testing.T) {
 	t.Run("update player that exists in pstore", func(t *testing.T) {
+		playerId := "1"
+		player := Player{Id: playerId, Name: "John", Marker: "X"}
+		updatedPlayer := Player{Id: playerId, Name: "Mike", Marker: "O"}
+		playerStore := PlayerStore{map[string]Player{
+			"1": player,
+		}}
 
+		_, err := playerStore.Update(updatedPlayer)
+		plyr, _ := playerStore.Get(playerId)
+
+		got := plyr
+		want := updatedPlayer
+
+		assertError(t, err, nil)
+		assertPlayer(t, got, want)
 	})
 
 	t.Run("update player that doesn't exist in pstore", func(t *testing.T) {
+		playerId := "1"
+		player := Player{Id: playerId, Name: "John", Marker: "X"}
+		playerStore := PlayerStore{map[string]Player{}}
 
+		_, updateErr := playerStore.Update(player)
+		_, gotErr := playerStore.Get(playerId)
+
+		assertError(t, updateErr, nil)
+		assertError(t, gotErr, nil)
 	})
 }
 
