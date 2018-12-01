@@ -71,10 +71,10 @@ func getGameStatus(game *Game, bs Store) string {
 	board, err := bs.Get(game.BoardId)
 
 	if err == nil {
-		if len(getEmptyPositions(board)) == 0 {
-			return STATUS_DRAW
-		} else if containsWinningPattern(board, M_1) || containsWinningPattern(board, M_2) {
+		if containsWinningPattern(board, M_1) || containsWinningPattern(board, M_2) {
 			return STATUS_WINNER
+		} else if len(getEmptyPositions(board)) == 0 {
+			return STATUS_DRAW
 		}
 	}
 	return STATUS_IN_PROGRESS

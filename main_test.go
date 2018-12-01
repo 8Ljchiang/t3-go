@@ -10,18 +10,41 @@ func (bsm BoardStoreMock) Get(boardId string) (Board, error) {
 	return board1, nil
 }
 
-type FullBoardStoreMock struct{}
+type WinBoardStoreMock struct{}
 
-func (fbsm FullBoardStoreMock) Get(boardId string) (Board, error) {
-	move1 := Move{"X", 1, "playerId-1"}
-	move2 := Move{"O", 2, "playerId-2"}
-	move3 := Move{"X", 3, "playerId-1"}
-	move4 := Move{"O", 4, "playerId-2"}
-	move5 := Move{"X", 5, "playerId-1"}
-	move6 := Move{"O", 6, "playerId-2"}
-	move7 := Move{"X", 7, "playerId-1"}
-	move8 := Move{"O", 8, "playerId-2"}
-	move9 := Move{"X", 9, "playerId-1"}
+func (wbsm WinBoardStoreMock) Get(boardId string) (Board, error) {
+	p1 := "P1"
+	p2 := "P2"
+
+	move1 := Move{M_1, 1, p1}
+	move2 := Move{M_2, 2, p2}
+	move3 := Move{M_1, 3, p1}
+	move4 := Move{M_2, 4, p2}
+	move5 := Move{M_1, 5, p1}
+	move6 := Move{M_2, 6, p2}
+	move7 := Move{M_1, 7, p1}
+	move8 := Move{M_2, 8, p2}
+	move9 := Move{M_1, 9, p1}
+	moves := []Move{move1, move2, move3, move4, move5, move6, move7, move8, move9}
+	board1Id := "B1"
+	board1 := Board{Id: board1Id, Size: 3, Moves: moves}
+	return board1, nil
+}
+
+type DrawBoardStoreMock struct{}
+
+func (dbsm DrawBoardStoreMock) Get(boardId string) (Board, error) {
+	p1 := "P1"
+	p2 := "P2"
+	move1 := Move{M_1, 1, p1}
+	move2 := Move{M_1, 2, p1}
+	move3 := Move{M_2, 3, p2}
+	move4 := Move{M_2, 4, p2}
+	move5 := Move{M_2, 5, p1}
+	move6 := Move{M_1, 6, p2}
+	move7 := Move{M_1, 7, p1}
+	move8 := Move{M_1, 8, p1}
+	move9 := Move{M_2, 9, p2}
 	moves := []Move{move1, move2, move3, move4, move5, move6, move7, move8, move9}
 	board1Id := "B1"
 	board1 := Board{Id: board1Id, Size: 3, Moves: moves}
@@ -42,7 +65,7 @@ func TestGetGameStatus(t *testing.T) {
 	})
 
 	t.Run("should return the status of DRAW when the board is full and no winner", func(t *testing.T) {
-		boardStoreMock := FullBoardStoreMock{}
+		boardStoreMock := DrawBoardStoreMock{}
 		newGame := createNewGame()
 
 		got := getGameStatus(&newGame, boardStoreMock)
@@ -54,7 +77,7 @@ func TestGetGameStatus(t *testing.T) {
 	})
 
 	t.Run("should return the status of WINNER when there is a matching pattern", func(t *testing.T) {
-		boardStoreMock := FullBoardStoreMock{}
+		boardStoreMock := WinBoardStoreMock{}
 		newGame := createNewGame()
 
 		got := getGameStatus(&newGame, boardStoreMock)
