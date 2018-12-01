@@ -43,7 +43,7 @@ func containsWinningPattern(board Board, mark string) bool {
 		[]int{4, 5, 6},
 		[]int{7, 8, 9},
 		[]int{1, 4, 7},
-		[]int{2, 6, 8},
+		[]int{2, 5, 8},
 		[]int{3, 6, 9},
 		[]int{1, 5, 9},
 		[]int{3, 5, 7},
