@@ -78,6 +78,22 @@ func TestAddMove(t *testing.T) {
 		assertMoves(t, got, want)
 	})
 
+	t.Run("get taken positions from board", func(t *testing.T) {
+		board := createNewBoard()
+		move1 := Move{"X", 1, "playerId-1"}
+		move2 := Move{"O", 2, "playerId-2"}
+		board.AddMove(move1)
+		board.AddMove(move2)
+		takenPositions := board.GetTakenPositions()
+
+		got := takenPositions
+		want := []int{1, 2}
+
+		if got != want {
+			t.Errorf("got %v want %v", got, want)
+		}
+	})
+
 	t.Run("get empty positions from empty board", func(t *testing.T) {
 		board := createNewBoard()
 		emptyPostions := board.GetEmptyPositions()
@@ -89,6 +105,7 @@ func TestAddMove(t *testing.T) {
 			t.Errorf("got %v want %v", got, want)
 		}
 	})
+
 }
 
 func createNewBoard() Board {
