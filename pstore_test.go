@@ -7,11 +7,36 @@ import (
 
 func TestAdd(t *testing.T) {
 	t.Run("add player to empty pstore", func(t *testing.T) {
+		playerId := "1"
+		player := Player{Id: playerId, Name: "John", Marker: "X"}
+		playerStore := PlayerStore{map[string]Player{}}
 
+		_, err := playerStore.Add(player)
+		got := playerStore.Get(playerId)
+		want := player
+
+		assertError(t, err, nil)
+
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v want %v", got, want)
+		}
 	})
 
 	t.Run("add player to store where player already exists", func(t *testing.T) {
+		// playerId := "1"
+		// player := Player{Id: playerId, Name: "John", Marker: "X"}
+		// collection := map[string]Player{
+		// 	"1": player,
+		// }
+		// playerStore := PlayerStore{collection}
 
+		// got, err := playerStore.Get(playerId)
+		// want := player
+
+		// assertError(t, err, nil)
+
+		// if !reflect.DeepEqual(got, want) {
+		// 	t.Errorf("got %v want %v", got, want)
 	})
 }
 
