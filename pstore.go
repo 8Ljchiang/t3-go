@@ -38,3 +38,17 @@ func (p *PlayerStore) Add(player Player) (Player, error) {
 		return plyr, err
 	}
 }
+
+func (p *PlayerStore) Update(player Player) (Player, error) {
+	plyr, err := p.Get(player.Id)
+
+	switch err {
+	case ErrPlayerNotFound:
+		return plyr, ErrPlayerNotFound
+	case nil:
+		p.Collection[player.Id] = player
+		return player, nil
+	default:
+		return plyr, err
+	}
+}

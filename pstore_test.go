@@ -92,10 +92,10 @@ func TestUpate(t *testing.T) {
 		playerStore := PlayerStore{map[string]Player{}}
 
 		_, updateErr := playerStore.Update(player)
-		_, gotErr := playerStore.Get(playerId)
+		_, getErr := playerStore.Get(playerId)
 
-		assertError(t, updateErr, nil)
-		assertError(t, gotErr, nil)
+		assertError(t, updateErr, ErrPlayerNotFound)
+		assertError(t, getErr, ErrPlayerNotFound)
 	})
 }
 
