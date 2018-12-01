@@ -1,4 +1,4 @@
-package board
+package main
 
 const (
 	ErrBoardFull            = BoardErr("board is full")
