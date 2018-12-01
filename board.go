@@ -1,5 +1,7 @@
 package main
 
+import "strconv"
+
 const (
 	ErrBoardFull            = BoardErr("board is full")
 	ErrBoardPositionInvalid = BoardErr("board position is invalid")
@@ -34,6 +36,25 @@ func (b *Board) AddMove(move Move) (Move, error) {
 		}
 	}
 	return move, ErrBoardFull
+}
+
+// Not tested
+func (b Board) GetPositionMark(position int) string {
+	for _, move := range b.Moves {
+		if move.Position == position {
+			return move.Mark
+		}
+	}
+	return strconv.Itoa(position)
+}
+
+func getPositionMark(b Board, position int) string {
+	for _, move := range b.Moves {
+		if move.Position == position {
+			return move.Mark
+		}
+	}
+	return strconv.Itoa(position)
 }
 
 func (b Board) GetTakenPositions() (positions []int) {
