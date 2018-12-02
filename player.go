@@ -9,3 +9,9 @@ type Player struct {
 	Name   string
 	Marker string
 }
+
+func (p Player) GetMove(b Board) (move Move) {
+	// position = ir.GetInput(p.Name + " - Please enter a position (1-" + convertIntToString(b.Width*b.Height) + "): ")
+	// return position
+	return Move{p.Marker, 1, p.Id}
+}
