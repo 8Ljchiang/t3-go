@@ -83,9 +83,9 @@ func getGameStatus(game *Game, bs Store) string {
 func processGameStatus(inputReader *bufio.Reader, status string, game *Game, bs *BoardStore, ps *PlayerStore) {
 	switch status {
 	case STATUS_DRAW:
-		fmt.Print("The game state is DRAW\n")
+		fmt.Print("The game state is " + STATUS_DRAW + "\n")
 	case STATUS_IN_PROGRESS:
-		fmt.Print("The game state is IN_PROGRESS\n")
+		fmt.Print("The game state is " + STATUS_IN_PROGRESS + "\n")
 		board, bsErr := bs.Get(game.BoardId)
 		if bsErr == nil {
 			currentPlayerId := game.Players[game.ActivePlayerIndex]
@@ -111,7 +111,7 @@ func processGameStatus(inputReader *bufio.Reader, status string, game *Game, bs 
 			}
 		}
 	case STATUS_WINNER:
-		fmt.Print("The game state is WINNER\n")
+		fmt.Print("The game state is " + STATUS_WINNER + "\n")
 	default:
 		fmt.Print("The game state is UNKNOWN\n")
 	}
